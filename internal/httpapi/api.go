@@ -147,7 +147,15 @@ func versionView(v semver.Version) map[string]any {
 		"major":      v.Major,
 		"minor":      v.Minor,
 		"patch":      v.Patch,
-		"prerelease": v.Prerelease,
-		"build":      v.Build,
+		"prerelease": nonNilStrs(v.Prerelease),
+		"build":      nonNilStrs(v.Build),
 	}
+}
+
+// nonNilStrs 将 nil 切片替换为空切片，确保 JSON 序列化为 [] 而非 null。
+func nonNilStrs(s []string) []string {
+	if s == nil {
+		return []string{}
+	}
+	return s
 }
